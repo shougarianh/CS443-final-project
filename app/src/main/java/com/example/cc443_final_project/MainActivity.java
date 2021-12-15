@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             case R.id.create_account_button:
                 startActivity(new Intent(this, createAccount.class));
                 break;
-            case: R.id.login:
+            case R.id.login:
                 loginUser();
                 break;
         }
@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     Toast.makeText(MainActivity.this, "Failed to login. Try again.", Toast.LENGTH_LONG).show();
                 }
             }
-        })
+        });
     }
 }
 
