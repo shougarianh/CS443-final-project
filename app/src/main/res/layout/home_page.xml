@@ -39,7 +39,7 @@
         android:layout_alignParentBottom="true">
 
         <Button
-            android:id="@+id/create_group"
+            android:id="@+id/add_workout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
