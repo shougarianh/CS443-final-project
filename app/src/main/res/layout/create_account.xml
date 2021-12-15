@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:hint="Username"
             android:minHeight="48dp"
-            android:autofillHints=""
             android:inputType="text" />
 
         <EditText
@@ -27,7 +26,6 @@
             android:layout_height="wrap_content"
             android:hint="Email"
             android:minHeight="48dp"
-            android:autofillHints=""
             android:inputType="textEmailAddress" />
 
         <EditText
