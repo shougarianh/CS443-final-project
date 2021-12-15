@@ -20,11 +20,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private Button createAccount, loginButton;
     private EditText editTextEmail, editTextPassword;
     private FirebaseAuth mAuth;
+    private boolean loggedIn;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
-
+        mAuth = FirebaseAuth.getInstance();
         createAccount = (Button) findViewById(R.id.create_account_button);
         loginButton = (Button) findViewById(R.id.login);
         loginButton.setOnClickListener(this);
@@ -63,11 +64,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     // redirect to user profile
+                    loggedIn = true;
                 } else {
+                    loggedIn = false;
                     Toast.makeText(MainActivity.this, "Failed to login. Try again.", Toast.LENGTH_LONG).show();
                 }
             }
         });
+        if (loggedIn) {
+            startActivity(new Intent(this, homePage.class));
+        }
     }
 }
 
