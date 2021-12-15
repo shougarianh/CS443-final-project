@@ -25,6 +25,7 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth; // part of checking current Auth state
     private EditText editTextUsername, editTextEmail, editTextPassword, editTextReEnterPassword;
     private Button registerButton;
+    private boolean signedUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +85,6 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
             editTextReEnterPassword.setError("Passwords must match!");
             return;
         }
-        final boolean[] loggedIn = {false};
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -92,6 +92,7 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
+                            signedUp = true;
                             /*
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -112,11 +113,14 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
 
                         }
                         else {
-
+                            signedUp = false;
                             Toast.makeText(createAccount.this, "Failed to register!", Toast.LENGTH_LONG).show();
                         }
 
                     }
         });
+        if (signedUp) {
+            startActivity(new Intent(this, homePage.class));
+        }
     }
 }
