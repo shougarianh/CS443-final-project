@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Creating a styles.xml file:
+https://developer.android.com/guide/topics/ui/look-and-feel/themes-->
+<resources>
+    <string name="nav_drawer">Navigation Drawer</string>
+    <!--https://www.geeksforgeeks.org/navigation-drawer-in-android/-->
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+</resources>
