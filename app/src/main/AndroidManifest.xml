@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CC443finalproject" >
         <activity
-            android:name=".createAccount"
+            android:name="com.example.cc443_final_project.createAccount"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.cc443_final_project.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
