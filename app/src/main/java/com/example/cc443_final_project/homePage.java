@@ -54,7 +54,7 @@ public class homePage extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 myAuth.signOut();
-                startActivity(new Intent(homePage.this, createAccount.class));
+                startActivity(new Intent(homePage.this, MainActivity.class));
                 return true;
             }
         });
