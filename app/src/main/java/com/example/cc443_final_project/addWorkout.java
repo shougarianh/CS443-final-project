@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -48,6 +50,9 @@ public class addWorkout extends AppCompatActivity {
                 String length = workoutLength.getText().toString().trim();
                 String calories = caloriesBurned.getText().toString().trim();
                 String dateString = date.getText().toString().trim();
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
                 if (type.isEmpty())
                 {
                     typeOfWorkout.setError("Must input a value!");
@@ -68,6 +73,13 @@ public class addWorkout extends AppCompatActivity {
                     date.setError("Must input a value!");
                     return;
                 }
+                try {
+                    dateFormat.parse(dateString);
+                } catch (ParseException e) {
+                    date.setError("Date must be in dd/mm/yyyy format!");
+                    return;
+                }
+
                 Workout workout = new Workout(type, length, calories, dateString);
 
                 FirebaseDatabase.getInstance().getReference("Workouts")

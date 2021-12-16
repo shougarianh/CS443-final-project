@@ -23,6 +23,7 @@ public class homePage extends AppCompatActivity {
     public ActionBarDrawerToggle actionBarDrawerToggle;
     Button addWorkoutButton;
     MenuItem logoutButton;
+    MenuItem accountButton;
     NavigationView navigationView;
     FirebaseAuth myAuth;
     private DatabaseReference reference;
@@ -48,6 +49,7 @@ public class homePage extends AppCompatActivity {
         // Set up the navigation view
         navigationView = (NavigationView) findViewById(R.id.navmenu);
         logoutButton = navigationView.getMenu().findItem(R.id.nav_logout);
+        accountButton = navigationView.getMenu().findItem(R.id.nav_account);
         myAuth = FirebaseAuth.getInstance();
 
         logoutButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -55,6 +57,14 @@ public class homePage extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 myAuth.signOut();
                 startActivity(new Intent(homePage.this, MainActivity.class));
+                return true;
+            }
+        });
+
+        accountButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                startActivity(new Intent(homePage.this, Account.class));
                 return true;
             }
         });
