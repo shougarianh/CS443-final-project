@@ -25,7 +25,6 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth; // part of checking current Auth state
     private EditText editTextUsername, editTextEmail, editTextPassword, editTextReEnterPassword;
     private Button registerButton;
-    private boolean signedUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +91,10 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
-                            signedUp = true;
-                            /*
+                            User user = new User(username, email);
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue("HELLO").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful())
@@ -109,18 +107,13 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
                                 }
                             });
 
-                             */
-
+                            startActivity(new Intent(createAccount.this, homePage.class));
                         }
                         else {
-                            signedUp = false;
                             Toast.makeText(createAccount.this, "Failed to register!", Toast.LENGTH_LONG).show();
                         }
 
                     }
         });
-        if (signedUp) {
-            startActivity(new Intent(this, homePage.class));
-        }
     }
 }
