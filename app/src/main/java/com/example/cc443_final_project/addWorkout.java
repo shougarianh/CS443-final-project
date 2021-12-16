@@ -1,6 +1,7 @@
 package com.example.cc443_final_project;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,8 +15,12 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -28,6 +33,7 @@ public class addWorkout extends AppCompatActivity {
     private EditText caloriesBurned;
     private EditText date;
     private Button done;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +75,9 @@ public class addWorkout extends AppCompatActivity {
                     return;
                 }
                 Workout workout = new Workout(type, length, calories, dateString);
-
                 FirebaseDatabase.getInstance().getReference("Workouts")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .setValue(workout).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        .push().setValue(workout).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful())
