@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CC443finalproject">
         <activity
+            android:name=".addWorkout"
+            android:exported="false" />
+        <activity
             android:name=".homePage"
             android:exported="false" />
         <activity

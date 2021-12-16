@@ -62,7 +62,6 @@ public class homePage extends AppCompatActivity {
         myAuth = FirebaseAuth.getInstance();
 
 
-        /*
         addWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +69,6 @@ public class homePage extends AppCompatActivity {
             }
         });
 
-         */
 
         //// DATABASE TESTING/////////
 
