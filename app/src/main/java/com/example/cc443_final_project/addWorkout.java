@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +36,7 @@ public class addWorkout extends AppCompatActivity {
     private EditText caloriesBurned;
     private EditText date;
     private Button done;
+    private int count;
 
 
     @Override
@@ -85,7 +87,6 @@ public class addWorkout extends AppCompatActivity {
                     date.setError("Date must be in dd/mm/yyyy format!");
                     return;
                 }
-
                 Workout workout = new Workout(type, length, calories, dateString);
                 FirebaseDatabase.getInstance().getReference("Workouts")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -107,6 +108,7 @@ public class addWorkout extends AppCompatActivity {
 
             }
         });
+
 
     }
 }

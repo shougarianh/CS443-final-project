@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,17 +17,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class homePage extends AppCompatActivity {
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-    Button addWorkoutButton;
-    MenuItem logoutButton;
-    MenuItem accountButton;
-    NavigationView navigationView;
-    FirebaseAuth myAuth;
+    private Button addWorkoutButton;
+    private MenuItem logoutButton;
+    private MenuItem accountButton;
+    private NavigationView navigationView;
+    private FirebaseAuth myAuth;
+    private ListView list;
     private DatabaseReference reference;
 
     @Override
@@ -33,7 +42,34 @@ public class homePage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
+        //////////////// THIS BLOCK IS FOR RETRIEVING WORKOUT DATA FROM FIREBASE //////////////////
+        ArrayAdapter<String> adapter;
+        ArrayList<String> items = new ArrayList<>();
+        list = (ListView) findViewById(R.id.list_view);
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,items);
+        list.setAdapter(adapter);
+        reference = FirebaseDatabase.getInstance().getReference().child("Workouts")
+            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                items.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Workout workout = dataSnapshot.getValue(Workout.class);
+                    String workoutItem = "Type: " + workout.getType() + "\nLength: " + workout.getLength()
+                            + "\nCalories: " + workout.getCalories() + "\nDate: " + workout.getDateString();
+                    items.add(workoutItem);
+                }
+                adapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
         drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 

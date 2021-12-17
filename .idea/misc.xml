@@ -3,18 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.19947916666666668" />
-        <entry key="app/src/main/res/drawable/divider.xml" value="0.19947916666666668" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.19947916666666668" />
-        <entry key="app/src/main/res/layout/account_activity.xml" value="0.27447916666666666" />
-        <entry key="app/src/main/res/layout/account_page.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/create_account.xml" value="0.23489583333333333" />
-        <entry key="app/src/main/res/layout/home_page.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/home_screen.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/home_page.xml" value="0.1359050291900858" />
         <entry key="app/src/main/res/layout/login_screen.xml" value="0.22708333333333333" />
-        <entry key="app/src/main/res/layout/new_workout.xml" value="0.1" />
-        <entry key="app/src/main/res/menu/navigation_menu.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/new_workout.xml" value="0.10053559016402228" />
       </map>
     </option>
   </component>
