@@ -11,12 +11,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -82,7 +85,20 @@ public class homePage extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // get the id of the workout from the hash map, key is the position
                 String workoutID = firebaseWorkoutIDs.get(String.valueOf(position));
-                reference.child(workoutID).removeValue();
+                reference.child(workoutID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                        {
+                            Toast.makeText(homePage.this, "Workout successfully deleted.", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(homePage.this, "Workout could not be deleted..", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+                firebaseWorkoutIDs.remove(position);
                 items.remove(position);
                 adapter.notifyDataSetChanged();
                 return false;
