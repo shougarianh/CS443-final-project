@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class homePage extends AppCompatActivity {
 
@@ -36,6 +40,9 @@ public class homePage extends AppCompatActivity {
     private FirebaseAuth myAuth;
     private ListView list;
     private DatabaseReference reference;
+    private ArrayAdapter<String> adapter; // for modifying list view
+    private ArrayList<String> items = new ArrayList<>(); // contains all of our local workouts
+    private Map<String, String> firebaseWorkoutIDs = new HashMap<>(); // will store firbase workout ids
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +50,6 @@ public class homePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         //////////////// THIS BLOCK IS FOR RETRIEVING WORKOUT DATA FROM FIREBASE //////////////////
-        ArrayAdapter<String> adapter;
-        ArrayList<String> items = new ArrayList<>();
         list = (ListView) findViewById(R.id.list_view);
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,items);
         list.setAdapter(adapter);
@@ -59,6 +64,9 @@ public class homePage extends AppCompatActivity {
                     String workoutItem = "Type: " + workout.getType() + "\nLength: " + workout.getLength()
                             + "\nCalories: " + workout.getCalories() + "\nDate: " + workout.getDateString();
                     items.add(workoutItem);
+                    String key = String.valueOf(items.indexOf(workoutItem));
+                    String workoutID = dataSnapshot.getKey().toString();
+                    firebaseWorkoutIDs.put(key, workoutID);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -66,6 +74,18 @@ public class homePage extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // get the id of the workout from the hash map, key is the position
+                String workoutID = firebaseWorkoutIDs.get(String.valueOf(position));
+                reference.child(workoutID).removeValue();
+                items.remove(position);
+                adapter.notifyDataSetChanged();
+                return false;
             }
         });
 
