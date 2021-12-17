@@ -76,7 +76,7 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
 
         if (password.length() < 8 || !b)
         {
-            editTextPassword.setError("Password must contain atleast 8 characters and one " +
+            editTextPassword.setError("Password must contain at least 8 characters and one " +
                     "special character");
             return;
         }
