@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center|bottom"
         android:layout_alignParentBottom="true">
 
         <Button
@@ -20,7 +21,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_alignParentBottom="true"
             android:background="#3f76ff"
             android:textColor="#000000"
             android:text="Add Workout" />
