@@ -34,6 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:ems="10"
+            android:background="#000000"
+            android:textColor="#FFFFFF"
             android:text="Change Password" />
 
         <TextView
