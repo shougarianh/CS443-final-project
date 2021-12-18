@@ -49,8 +49,8 @@
             android:id="@+id/create_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#3f76ff"
-            android:textColor="#000000"
+            android:background="#000000"
+            android:textColor="#FFFFFF"
             android:text="Create Account" />
 
     </LinearLayout>

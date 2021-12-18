@@ -17,9 +17,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends Activity implements View.OnClickListener{
+
     private Button createAccount, loginButton;
     private EditText editTextEmail, editTextPassword;
     private FirebaseAuth mAuth;
+    private final Account account = new Account();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +34,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
         createAccount.setOnClickListener(this);
-
     }
 
     @Override
@@ -42,6 +44,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.login:
                 loginUser();
+                break;
+            case R.id.forgot_password:
+                account.sendResetLink();
                 break;
         }
     }
@@ -58,14 +63,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
         {
             editTextPassword.setError("You must enter this field!");
         }
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(
+                new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     // redirect to user profile
                     startActivity(new Intent(MainActivity.this, homePage.class));
                 } else {
-                    Toast.makeText(MainActivity.this, "Failed to login. Try again.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Failed to login. Try again.",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

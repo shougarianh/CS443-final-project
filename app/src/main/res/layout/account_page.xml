@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
-            android:text="TODO" />
+            android:text="" />
 
         <Button
             android:id="@+id/change_password"
@@ -34,7 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:ems="10"
-            android:text="Change Password" />
+            android:text="Change Password"
+            android:background="#000000"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/change_password_info"

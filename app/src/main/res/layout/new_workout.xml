@@ -82,7 +82,9 @@
             android:id="@+id/add_workout_to_log_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Done" />
+            android:text="Done"
+            android:background="#000000"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 
