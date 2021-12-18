@@ -45,9 +45,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
             case R.id.login:
                 loginUser();
                 break;
-            case R.id.forgot_password:
-                account.sendResetLink();
-                break;
         }
     }
 
