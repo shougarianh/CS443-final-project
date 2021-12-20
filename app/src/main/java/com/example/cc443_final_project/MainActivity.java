@@ -37,15 +37,18 @@ public class MainActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            // new user, go to create account page
             case R.id.create_account_button:
                 startActivity(new Intent(this, createAccount.class));
                 break;
+            // returning user, login
             case R.id.login:
                 loginUser();
                 break;
         }
     }
 
+    // helper function, logs in user
     private void loginUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
