@@ -30,13 +30,16 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
+        // get a reference to firebase authentication
         mAuth = FirebaseAuth.getInstance();
 
+        // initialize all ui components
         editTextUsername = (EditText) findViewById(R.id.username);
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
         editTextReEnterPassword = (EditText) findViewById(R.id.re_entered_password);
         registerButton = (Button) findViewById(R.id.create_account);
+        // set a click listener for the create account button
         registerButton.setOnClickListener(this);
 
     }
@@ -54,6 +57,7 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
         String password = editTextPassword.getText().toString().trim();
         String reEnterPassword = editTextReEnterPassword.getText().toString().trim();
 
+        // make sure all fields have a valid input
         if (username.isEmpty()) {
             editTextUsername.setError("Username is required!");
             return;
@@ -62,6 +66,7 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
             editTextEmail.setError("Email is required!");
             return;
         }
+        // make sure email matches an email pattern
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Please enter a valid email address!");
             return;
@@ -70,6 +75,7 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
             editTextPassword.setError("Password is required!");
             return;
         }
+        // make a pattern for password atleast one special character
         Pattern p = Pattern.compile("[^A-Za-z0-9]");
         Matcher m = p.matcher(password);
         boolean b = m.find();
@@ -85,14 +91,16 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
             editTextReEnterPassword.setError("Passwords must match!");
             return;
         }
-
+        // use firebase api call to register the user with their email and password
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
+                            // if it is successful, make a new user object
                             User user = new User(username, email);
+                            // place the user object into the real time database
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -100,17 +108,20 @@ public class createAccount extends AppCompatActivity implements View.OnClickList
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful())
                                     {
+                                        // if successfully put into the database, notify user
                                         Toast.makeText(createAccount.this, "Succesfully registered!", Toast.LENGTH_LONG).show();
                                     }
                                     else {
+                                        // otherwise, also notify user
                                         Toast.makeText(createAccount.this, "Failed to register!", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
-
+                            // switch the activity to the main screen
                             startActivity(new Intent(createAccount.this, homePage.class));
                         }
                         else {
+                            // notify user that their account was not created
                             Toast.makeText(createAccount.this, "Failed to register!", Toast.LENGTH_LONG).show();
                         }
 
