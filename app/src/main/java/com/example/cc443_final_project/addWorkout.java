@@ -36,7 +36,6 @@ public class addWorkout extends AppCompatActivity {
     private EditText caloriesBurned;
     private EditText date;
     private Button done;
-    private int count;
 
 
     @Override
@@ -44,23 +43,25 @@ public class addWorkout extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_workout);
-
+        // initialize ui components
         typeOfWorkout = (EditText) findViewById(R.id.workout_type);
         workoutLength = (EditText) findViewById(R.id.workout_length);
         caloriesBurned = (EditText) findViewById(R.id.calories_burned);
         date = (EditText) findViewById(R.id.date);
         done = (Button) findViewById(R.id.add_workout_to_log_button);
-
+        // when the done button is clicked
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // trim all white spaces and save all fields to strings
                 String type = typeOfWorkout.getText().toString().trim();
                 String length = workoutLength.getText().toString().trim();
                 String calories = caloriesBurned.getText().toString().trim();
                 String dateString = date.getText().toString().trim();
-
+                // make sure that date matches a date format
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+                // make sure that all the fields are filled out
                 if (type.isEmpty())
                 {
                     typeOfWorkout.setError("Must input a value!");
@@ -87,7 +88,10 @@ public class addWorkout extends AppCompatActivity {
                     date.setError("Date must be in dd/mm/yyyy format!");
                     return;
                 }
+                // create a new workout object
                 Workout workout = new Workout(type, length, calories, dateString);
+                // access the database, go into the workouts part, find the current user id
+                // and add the new workout
                 FirebaseDatabase.getInstance().getReference("Workouts")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .push().setValue(workout).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -95,10 +99,12 @@ public class addWorkout extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful())
                         {
-                            Toast.makeText(addWorkout.this, "Succesfully logged workout!", Toast.LENGTH_LONG).show();
+                            // if it is successful, go back to home page and notify user
+                            Toast.makeText(addWorkout.this, "Successfully logged workout!", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(addWorkout.this, homePage.class));
                         }
                         else {
+                            // otherwise notify user that workout couldn't be added
                             Toast.makeText(addWorkout.this, "Failed to log workout!", Toast.LENGTH_LONG).show();
                         }
                     }

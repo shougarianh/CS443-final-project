@@ -53,24 +53,33 @@ public class homePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         //////////////// THIS BLOCK IS FOR RETRIEVING WORKOUT DATA FROM FIREBASE //////////////////
+        // initialize a list view component and an adapter for the listview
         list = (ListView) findViewById(R.id.list_view);
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,items);
         list.setAdapter(adapter);
+        // get a reference to all the workouts of the current user
         reference = FirebaseDatabase.getInstance().getReference().child("Workouts")
             .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        // when a value is changed
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // clear the listview
                 items.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    // get a new workout object for each workout in the database
                     Workout workout = dataSnapshot.getValue(Workout.class);
+                    // stylize it into a presentable string
                     String workoutItem = "Type: " + workout.getType() + "\nLength: " + workout.getLength()
                             + "\nCalories: " + workout.getCalories() + "\nDate: " + workout.getDateString();
+                    // put it into the list
                     items.add(workoutItem);
+                    // save the workout id (from firebase) into a hashmap where the id is it's index in the listview
                     String key = String.valueOf(items.indexOf(workoutItem));
                     String workoutID = dataSnapshot.getKey().toString();
                     firebaseWorkoutIDs.put(key, workoutID);
                 }
+                // notify the list that data has been updated
                 adapter.notifyDataSetChanged();
             }
 
@@ -80,19 +89,23 @@ public class homePage extends AppCompatActivity {
             }
         });
 
+        // listener for when a list item in workouts list is long pressed
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // get the id of the workout from the hash map, key is the position
+                // access the database and delete the workout using firebase api call
                 String workoutID = firebaseWorkoutIDs.get(String.valueOf(position));
                 reference.child(workoutID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful())
                         {
+                            // if task is successful, notify user
                             Toast.makeText(homePage.this, "Workout successfully deleted.", Toast.LENGTH_LONG).show();
                         }
                         else {
+                            // notify user of unsuccessful task
                             Toast.makeText(homePage.this, "Workout could not be deleted..", Toast.LENGTH_LONG).show();
 
                         }
@@ -150,13 +163,6 @@ public class homePage extends AppCompatActivity {
                 startActivity(new Intent(homePage.this, addWorkout.class));
             }
         });
-
-
-        //// DATABASE TESTING/////////
-
-
-        /////////////////////////////
-
 
 
 
