@@ -1,4 +1,4 @@
-# CS443-final-project
+# CS443-Final-Project
 
 ### To clone this directory:
 #### ```git clone https://github.com/shougarianh/CS443-final-project.git```
